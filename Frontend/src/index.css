@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .yellowButton {
+    @apply rounded-md bg-yellow-50 px-6 py-3 font-semibold text-richblack-900 transition-colors hover:bg-yellow-25 focus:outline-none focus:ring-2 focus:ring-yellow-25 focus:ring-offset-2 focus:ring-offset-richblack-800;
+  }
+}
