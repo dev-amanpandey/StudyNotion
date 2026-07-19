@@ -6,4 +6,12 @@
   .yellowButton {
     @apply rounded-md bg-yellow-50 px-6 py-3 font-semibold text-richblack-900 transition-colors hover:bg-yellow-25 focus:outline-none focus:ring-2 focus:ring-yellow-25 focus:ring-offset-2 focus:ring-offset-richblack-800;
   }
+
+  .catalog-course-slider .swiper-pagination-bullet {
+    @apply bg-richblack-400 opacity-100;
+  }
+
+  .catalog-course-slider .swiper-pagination-bullet-active {
+    @apply w-5 rounded-full bg-yellow-50;
+  }
 }

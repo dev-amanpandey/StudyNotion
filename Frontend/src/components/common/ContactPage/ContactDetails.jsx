@@ -22,7 +22,7 @@ const ContactDetails = () => {
         <div>
           <p className="text-sm text-richblack-400">Address</p>
           <p className="text-lg">
-            StudyNotion HQ, Innovation Park, Bengaluru, India
+            StudyNotion HQ ,Raj Nagar, Ghaziabad, India
           </p>
         </div>
       </div>

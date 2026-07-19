@@ -4,10 +4,12 @@ import HighlightText from './HighlightText'
 import{FaArrowRight} from "react-icons/fa"
 import { TypeAnimation } from 'react-type-animation'
 const CodeBlocks = ({position, heading, subheading,ctabtn1,ctabtn2, codeblock,backgroundGradient, codeColor})=>{
+    const lineNumbers = codeblock.split("\n").map((_, index) => index + 1)
+
     return (
-        <div className = {`flex ${position} my-20 justify-between gap-10`}>
+        <div className = {`my-20 flex flex-col justify-between gap-10 ${position}`}>
             {/*section 1*/}
-        <div className='w-[50%] flex flex-col gap-8'>
+        <div className='flex w-full flex-col gap-8 lg:w-[50%]'>
             {heading}
             <div className = 'text-richblack-300 font-bold'>
                 {subheading}
@@ -32,22 +34,13 @@ const CodeBlocks = ({position, heading, subheading,ctabtn1,ctabtn2, codeblock,ba
 
         </div>
         {/*section 2*/}
-        <div className = 'h-fit flex flex-row text-[10px] w-[100%] py-4 lg:w-[500px]'>
-             {/*hw->bg color*/}
+        <div className = 'flex h-fit w-full overflow-x-auto rounded-lg border border-richblack-800 bg-richblack-900 py-5 text-xs lg:w-[500px]'>
+            <div className = 'flex w-12 shrink-0 flex-col border-r border-richblack-700 pr-3 text-right font-mono font-bold leading-5 text-richblack-400'>
+                {lineNumbers.map((lineNumber) => (
+                    <span key={lineNumber}>{lineNumber}</span>
+                ))}
             </div>
-               <div className = 'text-center flex flex-col w-[10%] text-richblack-400 font-inter font-bold'>
-                <p>1</p>
-                <p>2</p>
-                <p>3</p>
-                <p>4</p>
-                <p>5</p>
-                <p>6</p>
-                <p>7</p>
-                <p>8</p>
-                <p>9</p>
-                <p>10</p>
-            </div>
-            <div className={`w-[90%] flex-col gap-2 font-bold font-mono ${codeColor} pr-2`}>
+            <div className={`min-w-max flex-1 whitespace-pre font-mono font-bold leading-5 ${codeColor} px-4`}>
                 <TypeAnimation
                 sequence={[codeblock, 2000, ""]}
                 repeat = {Infinity}
@@ -55,7 +48,7 @@ const CodeBlocks = ({position, heading, subheading,ctabtn1,ctabtn2, codeblock,ba
                 //omitDeletionAnimation = {true}
                 style = {
                     {
-                        whiteSpace: "pre-line",
+                        whiteSpace: "pre",
                         display: "block",
                         
                     }
@@ -63,6 +56,7 @@ const CodeBlocks = ({position, heading, subheading,ctabtn1,ctabtn2, codeblock,ba
 
                 />
             </div>
+        </div>
         </div>
     )
 }
