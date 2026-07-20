@@ -11,6 +11,7 @@ import { categories } from '../../services/apis';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { IoArrowDownCircle } from "react-icons/io5";
+//import StudySyncLogo from "../../assets/Logo/StudySync-Logo.png";
 
 
 

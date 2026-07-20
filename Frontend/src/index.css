@@ -14,4 +14,13 @@
   .catalog-course-slider .swiper-pagination-bullet-active {
     @apply w-5 rounded-full bg-yellow-50;
   }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }
