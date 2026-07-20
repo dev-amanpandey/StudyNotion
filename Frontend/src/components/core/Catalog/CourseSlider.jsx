@@ -7,8 +7,9 @@ const CourseSlider = ({ Courses }) => {
   const [isDragging, setIsDragging] = useState(false)
 
   const handlePointerDown = (event) => {
-    // Let taps and right-clicks keep their normal behaviour; only primary-pointer
-    // interactions start a Netflix-style horizontal drag.
+    // Store the starting point, but don't capture the pointer yet. Capturing it
+    // on every press prevents a regular click on a course link from behaving
+    // like a normal navigation in some browsers.
     if (event.button !== 0) return
 
     drag.current = {
@@ -17,15 +18,19 @@ const CourseSlider = ({ Courses }) => {
       startScrollLeft: event.currentTarget.scrollLeft,
       moved: false,
     }
-    event.currentTarget.setPointerCapture(event.pointerId)
-    setIsDragging(true)
   }
 
   const handlePointerMove = (event) => {
     if (!drag.current.active) return
 
     const distance = event.clientX - drag.current.startX
-    if (Math.abs(distance) > 5) drag.current.moved = true
+    if (Math.abs(distance) > 5 && !drag.current.moved) {
+      drag.current.moved = true
+      event.currentTarget.setPointerCapture(event.pointerId)
+      setIsDragging(true)
+    }
+
+    if (!drag.current.moved) return
     event.currentTarget.scrollLeft = drag.current.startScrollLeft - distance
   }
 
