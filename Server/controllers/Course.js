@@ -8,7 +8,7 @@ const {uploadImageToCloudinary} = require('../utils/imageUploader');
 exports.createCourse = async(req,res)=>{
     try{
         //fetch data
-        const {courseName, courseDescription,whatYouWillLearn,price,tag,category} = req.body;
+        const {courseName, courseDescription,whatYouWillLearn,price,tag,category,instructions,status} = req.body;
         //get thumbnail
         const thumbnail = req.files.thumbnailImage;
         //validation
@@ -42,6 +42,12 @@ exports.createCourse = async(req,res)=>{
         //upload thumbnail to cloudinary
         const thumbnailImage = await uploadImageToCloudinary(thumbnail,process.env.FOLDER_NAME);
         //create an entry in course collection
+        const parsedInstructions = Array.isArray(instructions)
+            ? instructions
+            : instructions
+                ? JSON.parse(instructions)
+                : [];
+
         const newCourse = await Course.create({
             courseName,
             courseDescription,
@@ -51,6 +57,8 @@ exports.createCourse = async(req,res)=>{
             tag:[tag],
              category: [categoryDetails._id],
             thumbnail: thumbnailImage.secure_url,
+            instructions: parsedInstructions,
+            status,
         })
         await Category.findByIdAndUpdate(categoryDetails._id, {
             $push: { course: newCourse._id },

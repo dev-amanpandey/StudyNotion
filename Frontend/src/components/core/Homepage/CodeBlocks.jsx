@@ -1,17 +1,15 @@
 import React from 'react'
 import CTAButton from './Button'
-import HighlightText from './HighlightText'
 import{FaArrowRight} from "react-icons/fa"
 import { TypeAnimation } from 'react-type-animation'
 const CodeBlocks = ({position, heading, subheading,ctabtn1,ctabtn2, codeblock,backgroundGradient, codeColor})=>{
     const lineNumbers = codeblock.split("\n").map((_, index) => index + 1)
-
     return (
         <div className = {`my-20 flex flex-col justify-between gap-10 ${position}`}>
             {/*section 1*/}
         <div className='flex w-full flex-col gap-8 lg:w-[50%]'>
             {heading}
-            <div className = 'text-richblack-300 font-bold'>
+            <div className='max-w-2xl font-sans text-sm font-medium leading-6 tracking-[0.01em] text-richblack-200 sm:text-base'>
                 {subheading}
             </div>
             

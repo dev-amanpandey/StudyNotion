@@ -59,10 +59,10 @@ return(
                 <CodeBlocks
                 position = {"lg:flex-row"}
                 heading = {
-                    <div className = 'text-4xl font-semibold'>
+                    <h2 className='font-sans text-3xl font-bold leading-[1.15] tracking-[-0.025em] text-richblack-5 sm:text-4xl lg:text-5xl'>
                         Unlock Your <HighlightText text = {'Coding Potential '}/> 
                         With Our Online Courses
-                        </div>
+                    </h2>
                 }
                 subheading = {"Join our coding courses and gain the skills you need to succeed in the tech industry. Our expert instructors will guide you through hands-on projects and real-world applications, helping you build a strong foundation in programming languages, web development, data science, and more. Don't miss out on this opportunity to boost your career prospects and become a proficient coder. Enroll now and start your coding journey with us!"}
                 ctabtn1 = {
@@ -92,10 +92,10 @@ return(
                 <CodeBlocks
                 position = {"lg:flex-row-reverse"}
                 heading = {
-                    <div className = 'text-4xl font-semibold'>
+                    <h2 className='font-sans text-3xl font-bold leading-[1.15] tracking-[-0.025em] text-richblack-5 sm:text-4xl lg:text-5xl'>
                         Unlock Your <HighlightText text = {'Coding Potential '}/> 
                         With Our Online Courses
-                        </div>
+                    </h2>
                 }
                 subheading = {"Join our coding courses and gain the skills you need to succeed in the tech industry. Our expert instructors will guide you through hands-on projects and real-world applications, helping you build a strong foundation in programming languages, web development, data science, and more. Don't miss out on this opportunity to boost your career prospects and become a proficient coder. Enroll now and start your coding journey with us!"}
                 ctabtn1 = {

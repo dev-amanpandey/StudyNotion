@@ -91,7 +91,7 @@ function CourseDetailsCard({ course, setConfirmationModal, handleBuyCourse }) {
 
           <div className={``}>
             <p className={`my-2 text-xl font-semibold `}>
-              This Course Includes :
+              Requirements
             </p>
             <div className="flex flex-col gap-3 text-sm text-caribbeangreen-100">
               {course?.instructions?.map((item, i) => {
