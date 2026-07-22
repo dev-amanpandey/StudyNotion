@@ -262,7 +262,17 @@ exports.getFullCourseDetails = async (req, res) => {
 exports.editCourse = async (req, res) => {
     try {
         const instructorId = req.user.id;
-        const { courseId, courseName, courseDescription, whatYouWillLearn, price, tag, category, instructions } = req.body;
+        const {
+            courseId,
+            courseName,
+            courseDescription,
+            whatYouWillLearn,
+            price,
+            tag,
+            category,
+            instructions,
+            status,
+        } = req.body;
         const thumbnail = req.files?.thumbnailImage;
 
         if (!courseId) {
@@ -295,6 +305,15 @@ exports.editCourse = async (req, res) => {
         }
         if (instructions !== undefined) {
             updateData.instructions = Array.isArray(instructions) ? instructions : JSON.parse(instructions);
+        }
+        if (status !== undefined) {
+            if (!['Draft', 'Published'].includes(status)) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Invalid course status",
+                });
+            }
+            updateData.status = status;
         }
         if (thumbnail) {
             const thumbnailImage = await uploadImageToCloudinary(thumbnail, process.env.FOLDER_NAME);
