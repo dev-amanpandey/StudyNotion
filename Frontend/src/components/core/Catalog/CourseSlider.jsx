@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react"
 
-import Course_Card from "./Course_Card"
+import CourseCard from "./CourseCard"
 
 const CourseSlider = ({ Courses }) => {
   const drag = useRef({ active: false, startX: 0, startScrollLeft: 0, moved: false })
@@ -72,7 +72,7 @@ const CourseSlider = ({ Courses }) => {
           className="w-[85%] shrink-0 sm:w-[calc((100%-20px)/2.15)] lg:w-[calc((100%-40px)/3.25)]"
           key={course?._id || i}
         >
-          <Course_Card course={course} Height="h-48 sm:h-52" />
+          <CourseCard course={course} Height="h-48 sm:h-52" />
         </div>
       ))}
     </div>

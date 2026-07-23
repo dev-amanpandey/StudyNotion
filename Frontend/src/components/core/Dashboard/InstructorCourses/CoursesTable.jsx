@@ -1,5 +1,4 @@
-import { useDispatch, useSelector } from "react-redux"
-import { setCourse, setEditCourse } from "../../../../slices/courseSlice"
+import { useSelector } from "react-redux"
 import { useState } from "react"
 import { FaCheck } from "react-icons/fa"
 import { FiEdit2 } from "react-icons/fi"
@@ -54,7 +53,6 @@ const getCourseDuration = (course) => {
 }
 
 export default function CoursesTable({ courses, setCourses }) {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const { token } = useSelector((state) => state.auth);
   const [loading, setLoading] = useState(false);

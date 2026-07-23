@@ -49,7 +49,6 @@ function CourseDetails() {
   const { user } = useSelector((state) => state.profile)
 
   const { token } = useSelector((state) => state.auth)
-  const { loading } = useSelector((state) => state.profile)
   const { paymentLoading } = useSelector((state) => state.course)
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -92,7 +91,7 @@ function CourseDetails() {
     setIsActive(
       !isActive.includes(id)
         ? isActive.concat([id])
-        : isActive.filter((e) => e != id)
+        : isActive.filter((e) => e !== id)
     )
   }
 
