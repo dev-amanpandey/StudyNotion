@@ -91,20 +91,55 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Allowed Origins
+// const allowedOrigins = [
+//   process.env.FRONTEND_URL,
+// ].filter(Boolean);
+
+// // CORS Configuration
+// app.use(
+//   cors({
+//     origin: function (origin, callback) {
+//       // Allow requests with no origin (Postman, mobile apps, etc.)
+//       if (!origin) return callback(null, true);
+
+//       if (allowedOrigins.includes(origin)) {
+//         return callback(null, true);
+//       }
+
+//       return callback(new Error("Not allowed by CORS"));
+//     },
+//     credentials: true,
+//   })
+// );// Allowed Origins
 const allowedOrigins = [
   process.env.FRONTEND_URL,
+  "http://localhost:3000",
+  "http://localhost:5173",
 ].filter(Boolean);
 
 // CORS Configuration
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (Postman, mobile apps, etc.)
-      if (!origin) return callback(null, true);
-
-      if (allowedOrigins.includes(origin)) {
+      // Allow requests with no origin (Postman, mobile apps)
+      if (!origin) {
         return callback(null, true);
       }
+
+      // Allow:
+      // 1. Exact frontend URL from .env
+      // 2. Any Vercel deployment URL
+      // 3. Localhost (any port)
+      const isAllowed =
+        allowedOrigins.includes(origin) ||
+        /^https:\/\/.*\.vercel\.app$/.test(origin) ||
+        /^http:\/\/localhost:\d+$/.test(origin);
+
+      if (isAllowed) {
+        return callback(null, true);
+      }
+
+      console.log("Blocked by CORS:", origin);
 
       return callback(new Error("Not allowed by CORS"));
     },
