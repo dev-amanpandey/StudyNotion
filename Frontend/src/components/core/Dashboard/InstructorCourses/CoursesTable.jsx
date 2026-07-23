@@ -16,6 +16,43 @@ import { COURSE_STATUS } from "../../../../utils/constants"
 import ConfirmationModal from "../../../common/ConfirmationModal"
 import courseThumbnailFallback from "../../../../assets/Images/boxoffice.png"
 
+const getDurationInSeconds = (value) => {
+  if (typeof value === "number") return value
+  if (typeof value !== "string") return 0
+
+  const duration = value.trim().toLowerCase()
+  if (/^\d+(?::\d+){1,2}$/.test(duration)) {
+    return duration.split(":").reduce((total, part) => total * 60 + Number(part), 0)
+  }
+
+  const hours = Number(duration.match(/(\d+(?:\.\d+)?)\s*(?:h|hour)/)?.[1] || 0)
+  const minutes = Number(duration.match(/(\d+(?:\.\d+)?)\s*(?:m|min|minute)/)?.[1] || 0)
+  const seconds = Number(duration.match(/(\d+(?:\.\d+)?)\s*(?:s|sec|second)/)?.[1] || 0)
+
+  return hours * 3600 + minutes * 60 + seconds || Number(duration) || 0
+}
+
+const getCourseDuration = (course) => {
+  const totalSeconds = (course?.courseContent || []).reduce(
+    (courseTotal, section) =>
+      courseTotal + (section?.subSections || section?.subSection || []).reduce(
+        (sectionTotal, lecture) => sectionTotal + getDurationInSeconds(lecture?.timeDuration),
+        0
+      ),
+    0
+  )
+
+  const hours = Math.floor(totalSeconds / 3600)
+  const minutes = Math.floor((totalSeconds % 3600) / 60)
+  const seconds = Math.floor(totalSeconds % 60)
+
+  return [
+    hours && `${hours}h`,
+    minutes && `${minutes}m`,
+    ((!hours && !minutes) || seconds) && `${seconds}s`,
+  ].filter(Boolean).join(" ")
+}
+
 export default function CoursesTable({ courses, setCourses }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,7 +78,7 @@ export default function CoursesTable({ courses, setCourses }) {
   return (
     <>
       <table className="w-full rounded-xl border border-richblack-800">
-        <thead>
+        <thead className="hidden md:table-header-group">
           <tr className="grid grid-cols-[minmax(0,2fr)_160px_120px_120px] gap-x-10 rounded-t-md border-b border-b-richblack-800 px-6 py-2 text-left">
             <th className="text-sm font-medium uppercase text-richblack-100">
               Courses
@@ -74,13 +111,13 @@ export default function CoursesTable({ courses, setCourses }) {
               return (
               <tr
                 key={course._id}
-                className="grid grid-cols-[minmax(0,2fr)_160px_120px_120px] gap-x-10 border-b border-richblack-800 px-6 py-8"
+                className="grid grid-cols-1 gap-4 border-b border-richblack-800 px-4 py-6 last:border-b-0 md:grid-cols-[minmax(0,2fr)_160px_120px_120px] md:gap-x-10 md:px-6 md:py-8"
               >
-                <td className="flex gap-x-4">
+                <td className="flex flex-col gap-4 md:flex-row md:gap-x-4">
                   <img
                     src={courseThumbnail}
                     alt={course?.courseName}
-                    className="h-[148px] w-[220px] rounded-lg object-cover"
+                    className="h-44 w-full rounded-lg object-cover md:h-[148px] md:w-[220px]"
                   />
                   <div className="flex flex-col justify-between">
                     <p className="text-lg font-semibold text-richblack-5">
@@ -109,13 +146,17 @@ export default function CoursesTable({ courses, setCourses }) {
                     )}
                   </div>
                 </td>
-                <td className="text-sm font-medium text-richblack-100">
-                  2hr 30min
+                <td className="flex items-center justify-between text-sm font-medium text-richblack-100 md:block">
+                  <span className="text-richblack-300 md:hidden">Duration</span>
+                  <span>{getCourseDuration(course)}</span>
                 </td>
-                <td className="text-sm font-medium text-richblack-100">
+                <td className="flex items-center justify-between text-sm font-medium text-richblack-100 md:block">
+                  <span className="text-richblack-300 md:hidden">Price</span>
                   ₹{course.price}
                 </td>
-                <td className="text-sm font-medium text-richblack-100 ">
+                <td className="flex items-center justify-between text-sm font-medium text-richblack-100 md:block">
+                  <span className="text-richblack-300 md:hidden">Actions</span>
+                  <span>
                   <button
                     disabled={loading}
                     onClick={() => {
@@ -148,6 +189,7 @@ export default function CoursesTable({ courses, setCourses }) {
                   >
                     <RiDeleteBin6Line size={20} />
                   </button>
+                  </span>
                 </td>
               </tr>
               )

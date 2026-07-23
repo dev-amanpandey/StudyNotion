@@ -25,8 +25,8 @@ export default function MyCourses() {
 
   return (
     <div>
-      <div className="mb-14 flex items-center justify-between">
-        <h1 className="text-3xl font-medium text-richblack-5">My Courses</h1>
+      <div className="mb-8 flex flex-col items-start justify-between gap-4 sm:mb-14 sm:flex-row sm:items-center">
+        <h1 className="text-2xl font-medium text-richblack-5 sm:text-3xl">My Courses</h1>
         <IconBtn
           text="Add Course"
           onclick={() => navigate("/dashboard/add-course")}
@@ -34,7 +34,7 @@ export default function MyCourses() {
           <VscAdd />
         </IconBtn>
       </div>
-      {courses && <CoursesTable courses={courses} setCourses={setCourses} />}
+      {courses && <div className="overflow-x-auto"><CoursesTable courses={courses} setCourses={setCourses} /></div>}
     </div>
   )
 }

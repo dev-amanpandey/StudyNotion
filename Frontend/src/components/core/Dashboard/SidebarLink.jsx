@@ -12,7 +12,7 @@ export default function SidebarLink({ link, iconName }) {
   return (
     <NavLink
       to={link.path}
-      className={`relative px-8 py-2 text-sm font-medium ${
+      className={`relative shrink-0 whitespace-nowrap px-4 py-2 text-sm font-medium sm:px-8 ${
         matchRoute(link.path)
           ? "bg-yellow-800 text-yellow-50"
           : "bg-opacity-0 text-richblack-300"
