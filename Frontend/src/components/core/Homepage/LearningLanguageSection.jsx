@@ -20,17 +20,17 @@ const LearningLanguageSection = () => {
               <img
                 src={Know_your_progress}
                 alt=""
-                className="object-contain  lg:-mr-32 "
+                className="max-w-full object-contain lg:-mr-32"
               />
               <img
                 src={Compare_with_others}
                 alt=""
-                className="object-contain lg:-mb-10 lg:-mt-0 -mt-12"
+                className="max-w-full object-contain lg:-mb-10 lg:-mt-0 -mt-12"
               />
               <img
                 src={Plan_your_lessons}
                 alt=""
-                className="object-contain  lg:-ml-36 lg:-mt-5 -mt-16"
+                className="max-w-full object-contain lg:-ml-36 lg:-mt-5 -mt-16"
               />
             </div>
           </div>
