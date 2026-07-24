@@ -7,6 +7,22 @@
     @apply rounded-md bg-yellow-50 px-6 py-3 font-semibold text-richblack-900 transition-colors hover:bg-yellow-25 focus:outline-none focus:ring-2 focus:ring-yellow-25 focus:ring-offset-2 focus:ring-offset-richblack-800;
   }
 
+  .blackButton {
+    @apply rounded-md px-6 py-3 font-semibold text-white transition-all duration-200
+           focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-offset-2 focus:ring-offset-richblack-800;
+    background-color: #2563EB;
+  }
+
+  .blackButton:hover {
+    background-color: #1D4ED8;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+  }
+
+  .blackButton:active {
+    background-color: #1E40AF;
+    box-shadow: none;
+  }
+
   .catalog-course-slider .swiper-pagination-bullet {
     @apply bg-richblack-400 opacity-100;
   }

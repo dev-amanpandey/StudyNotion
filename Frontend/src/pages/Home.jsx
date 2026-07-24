@@ -81,7 +81,7 @@ return(
 
                     }
                 }
-                codeblock = {`<<!DOCTYPE html>\n<html>\n head>\n  <title>My First Web Page</title>\n </head>\n <body>\n  <h1>Hello, World!</h1>\n  <p>This is my first web page.</p>\n </body>\n</html>`}
+                codeblock = {`<<DOCTYPE html>\n<html>\n head>\n  <title>My First Web Page</title>\n </head>\n <body>\n  <h1>Hello, World!</h1>\n  <p>This is my first web page.</p>\n </body>\n</html>`}
                 codeColor = {"text-yellow-25"}
 
                 />
@@ -114,7 +114,7 @@ return(
 
                     }
                 }
-                codeblock = {`<<!DOCTYPE html>\n<html>\n head>\n  <title>My First Web Page</title>\n </head>\n <body>\n  <h1>Hello, World!</h1>\n  <p>This is my first web page.</p>\n </body>\n</html>`}
+                codeblock = {`<<DOCTYPE html>\n<html>\n head>\n  <title>My First Web Page</title>\n </head>\n <body>\n  <h1>Hello, World!</h1>\n  <p>This is my first web page.</p>\n </body>\n</html>`}
                 codeColor = {"text-yellow-25"}
 
                 />
@@ -122,8 +122,6 @@ return(
             </div>
             <ExploreMore/>
         </div>
-
-
 
 
 
@@ -151,21 +149,21 @@ return(
 
                 </div>
 
-            </div>
+                </div>{/* closes w-11/12 gap-5 */}
 
-        </div>
+            </div>{/* closes homepage_bg */}
 
-                <div className='w-11/12 max-w-maxContent flex flec-col items-center justify-between gap-7'>
-        
+                <div className='w-11/12 max-w-maxContent flex flec-col items-center justify-between gap-7 mx-auto'>
 
-        <div className='flex flex-row gap-5 mb-10 mt-[95px]'>
-            <div className = 'text-4xl font-semibold'>
+        {/* MOBILE LAYOUT FIX: stack vertically on mobile, two-column on md+ */}
+        <div className='flex flex-col md:flex-row gap-5 mb-10 mt-[95px]'>
+            <div className='text-4xl font-semibold w-full md:w-auto text-left'>
                 Get the skills you need for a
                 <HighlightText text = {"job that is in demand"}/>
 
             </div>
-            <div className='flex flex-col gap-10 w-[40%] items-start'>
-            <div className='text-[16px]'>
+            <div className='flex flex-col gap-10 w-full md:w-[40%] items-start mt-4 md:mt-0'>
+            <div className='text-[16px] text-left'>
                 The modern job market is competitive, and having the right skills can make all the difference. Our courses are designed to equip you with the knowledge and expertise needed to excel in high-demand fields. Whether you're looking to break into tech, data science, or any other industry
             </div>
             <CTAButton active = {true} linkto = {"/signup"}>
@@ -177,15 +175,13 @@ return(
         </div>
 
         </div>
-        
 
+        </div>{/* closes w-11/12 maxContent */}
 
-</div>
-<TimeLineSection/>
- <LearningLanguageSection/> 
- 
+        <TimeLineSection/>
+        <LearningLanguageSection/>
 
-</div>
+        </div>{/* closes bg-pure-greys-5 */}
 
 
 
@@ -198,7 +194,6 @@ return(
 {ReviewSlider()}
 
 </div>
-
 
 
 
