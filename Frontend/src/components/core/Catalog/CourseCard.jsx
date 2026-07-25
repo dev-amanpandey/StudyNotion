@@ -23,7 +23,7 @@ const CourseCard = ({course, Height}) => {
             <img
               src={course?.thumbnail}
               alt={course?.courseName || "Course thumbnail"}
-              className={`${Height} w-full object-cover transition duration-300 group-hover:scale-105`}
+              className={`${Height} h-auto max-w-full w-full object-cover transition duration-300 group-hover:scale-105`}
             />
           </div>
           <div className="flex flex-col gap-2 p-4">
@@ -31,7 +31,7 @@ const CourseCard = ({course, Height}) => {
             <p className="text-sm text-richblack-50">
               {course?.instructor?.firstName} {course?.instructor?.lastName}
             </p>
-            <div className="flex items-center gap-2">
+            <div className="flex min-w-0 flex-wrap items-center gap-2">
               <span className="text-sm font-medium text-yellow-5">{avgReviewCount || 0}</span>
               <RatingStars Review_Count={avgReviewCount} Star_Size={15} />
               <span className="text-xs text-richblack-400">

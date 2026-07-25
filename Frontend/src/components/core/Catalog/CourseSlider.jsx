@@ -57,7 +57,7 @@ const CourseSlider = ({ Courses }) => {
   return (
     <div
       aria-label="Course carousel"
-      className={`flex gap-5 overflow-x-auto pb-6 pt-1 touch-pan-y select-none scrollbar-hide ${
+      className={`flex w-full min-w-0 max-w-full gap-5 overflow-x-auto pb-6 pt-1 touch-pan-x select-none scrollbar-hide ${
         isDragging ? "cursor-grabbing" : "cursor-grab"
       }`}
       onClickCapture={preventClickAfterDrag}
@@ -69,7 +69,7 @@ const CourseSlider = ({ Courses }) => {
     >
       {Courses.map((course, i) => (
         <div
-          className="w-[85%] shrink-0 sm:w-[calc((100%-20px)/2.15)] lg:w-[calc((100%-40px)/3.25)]"
+          className="min-w-0 max-w-full shrink-0 grow-0 basis-[85%] sm:basis-[calc((100%-1.25rem)/2.15)] lg:basis-[calc((100%-2.5rem)/3.25)]"
           key={course?._id || i}
         >
           <CourseCard course={course} Height="h-48 sm:h-52" />

@@ -75,9 +75,9 @@ const Catalog = () => {
       return (
         <>
           {/* Hero Section */}
-          <div className="box-content border-b border-richblack-700 bg-richblack-800 px-4">
-            <div className="mx-auto flex min-h-[300px] max-w-maxContentTab flex-col justify-center gap-5 py-10 lg:max-w-maxContent ">
-              <p className="text-sm font-medium text-richblack-300">
+          <div className="w-full max-w-full border-b border-richblack-700 bg-richblack-800 px-4">
+            <div className="mx-auto flex min-h-[300px] w-full max-w-maxContentTab flex-col justify-center gap-5 py-10 lg:max-w-maxContent">
+              <p className="break-words text-sm font-medium text-richblack-300">
                 Home <span className="px-1 text-richblack-500">/</span> Catalog <span className="px-1 text-richblack-500">/</span>
                 <span className="text-yellow-25">
                   {catalogPageData?.data?.selectedCategory?.name}
@@ -85,7 +85,7 @@ const Catalog = () => {
               </p>
               <div className="max-w-3xl">
                 <p className="mb-3 text-sm font-semibold uppercase tracking-[0.18em] text-yellow-50">Explore a learning path</p>
-                <h1 className="text-3xl font-semibold text-richblack-5 sm:text-4xl">
+                <h1 className="break-words text-3xl font-semibold text-richblack-5 sm:text-4xl">
                 {catalogPageData?.data?.selectedCategory?.name}
                 </h1>
               </div>
@@ -99,7 +99,7 @@ const Catalog = () => {
           </div>
     
           {/* Section 1: Course discovery controls */}
-          <section className="mx-auto box-content w-full max-w-maxContentTab px-4 pb-0 pt-14 lg:max-w-maxContent">
+          <section className="mx-auto w-full max-w-maxContentTab px-4 pb-0 pt-14 lg:max-w-maxContent">
             <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-[0.15em] text-yellow-50">Start here</p>
@@ -135,8 +135,8 @@ const Catalog = () => {
           </section>
 
           {/* Section 2: Course slider */}
-          <section className="mx-auto box-content w-full max-w-maxContentTab px-4 pb-16 pt-7 lg:max-w-maxContent">
-            <div className="min-h-[340px]">
+          <section className="mx-auto w-full min-w-0 max-w-maxContentTab px-4 pb-16 pt-7 lg:max-w-maxContent">
+            <div className="min-h-[340px] w-full min-w-0 max-w-full">
               <CourseSlider
                 Courses={catalogPageData?.data?.selectedCategory?.courses}
               />
@@ -145,7 +145,7 @@ const Catalog = () => {
     
           {/* Section 3 */}
           <section className="border-y border-richblack-800 bg-richblack-800/40">
-            <div className="mx-auto box-content w-full max-w-maxContentTab px-4 py-14 lg:max-w-maxContent">
+            <div className="mx-auto w-full max-w-maxContentTab px-4 py-14 lg:max-w-maxContent">
               <p className="text-sm font-semibold uppercase tracking-[0.15em] text-yellow-50">Popular picks</p>
               <h2 className="mt-2 text-2xl font-semibold text-richblack-5 sm:text-3xl">Frequently Bought Courses</h2>
               <p className="mt-2 text-richblack-300">Courses learners often choose alongside this category.</p>
