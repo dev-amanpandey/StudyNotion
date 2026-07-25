@@ -6,8 +6,8 @@ StudyNotion is a full-stack EdTech platform built using the **MERN Stack** that 
 
 ## 🚀 Live Demo
 
-* **Frontend:** *Add your deployed frontend URL here*
-* **Backend API:** *Add your deployed backend URL here*
+* **Frontend:https://study-notion-rho-vert.vercel.app
+* **Backend API:https://studynotion-e194.onrender.com
 
 ---
 
