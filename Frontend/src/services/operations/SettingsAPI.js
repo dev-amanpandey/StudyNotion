@@ -65,24 +65,40 @@ export function updateProfile(token, formData) {
         throw new Error(response?.data?.message || "Unable to update profile")
       }
 
-      toast.success("Profile updated successfully")
-      if (response?.data?.profileDetails) {
+      const updatedUser = response?.data?.user
+      if (!updatedUser) {
         const storedUser = JSON.parse(localStorage.getItem("user")) || {}
-        const updatedUser = {
-          ...storedUser,
-          additionalDetails: response.data.profileDetails,
+        const profileDetails = response?.data?.profileDetails
+        if (!profileDetails) {
+          throw new Error("Updated user data was not returned")
         }
-        dispatch(setUser(updatedUser))
-        localStorage.setItem("user", JSON.stringify(updatedUser))
+
+        // Supports a server that has not yet been restarted after the API
+        // response was upgraded to return the complete user object.
+        const legacyUpdatedUser = {
+          ...storedUser,
+          additionalDetails: profileDetails,
+        }
+        dispatch(setUser(legacyUpdatedUser))
+        localStorage.setItem("user", JSON.stringify(legacyUpdatedUser))
+        toast.success("Profile updated successfully")
+        return legacyUpdatedUser
       }
+
+      dispatch(setUser(updatedUser))
+      localStorage.setItem("user", JSON.stringify(updatedUser))
+      toast.success("Profile updated successfully")
+      return updatedUser
     } catch (error) {
       toast.error(
         error?.response?.data?.message ||
           error?.message ||
           "Could not update profile"
       )
+      return null
+    } finally {
+      toast.dismiss(toastId)
     }
-    toast.dismiss(toastId)
   }
 }
 

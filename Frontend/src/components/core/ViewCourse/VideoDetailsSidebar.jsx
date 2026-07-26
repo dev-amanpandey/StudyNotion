@@ -40,8 +40,8 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
 
   return (
     <>
-      <div className="flex h-[calc(100vh-3.5rem)] w-[320px] max-w-[350px] flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800">
-        <div className="mx-5 flex flex-col items-start justify-between gap-2 gap-y-4 border-b border-richblack-600 py-5 text-lg font-bold text-richblack-25">
+      <div className="flex h-auto w-full min-w-0 max-w-full flex-col border-t border-richblack-700 bg-richblack-800 lg:h-[calc(100vh-3.5rem)] lg:w-[320px] lg:max-w-[350px] lg:border-t-0 lg:border-r-[1px] lg:border-r-richblack-700">
+        <div className="mx-5 flex min-w-0 flex-col items-start justify-between gap-2 gap-y-4 border-b border-richblack-600 py-5 text-lg font-bold text-richblack-25">
           <div className="flex w-full items-center justify-between ">
             <div
               onClick={() => {
@@ -58,15 +58,15 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
               onclick={() => setReviewModal(true)}
             />
           </div>
-          <div className="flex flex-col">
-            <p>{courseEntireData?.courseName}</p>
+          <div className="flex min-w-0 flex-col">
+            <p className="max-w-full break-words">{courseEntireData?.courseName}</p>
             <p className="text-sm font-semibold text-richblack-500">
               {completedLectures?.length} / {totalNoOfLectures}
             </p>
           </div>
         </div>
 
-        <div className="h-[calc(100vh - 5rem)] overflow-y-auto">
+        <div className="max-h-[60vh] w-full min-w-0 overflow-y-auto lg:h-[calc(100vh-5rem)] lg:max-h-none">
           {courseSectionData.map((course, index) => (
             <div
               className="mt-2 cursor-pointer text-sm text-richblack-5"
@@ -74,11 +74,11 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
               key={index}
             >
               {/* Section */}
-              <div className="flex flex-row justify-between bg-richblack-600 px-5 py-4">
-                <div className="w-[70%] font-semibold">
+              <div className="flex min-w-0 flex-row justify-between gap-3 bg-richblack-600 px-5 py-4">
+                <div className="min-w-0 flex-1 break-words font-semibold">
                   {course?.sectionName}
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex shrink-0 items-center gap-3">
                   {/* <span className="text-[12px] font-medium">
                     Lession {course?.subSection.length}
                   </span> */}
@@ -99,7 +99,7 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
                 <div className="transition-[height] duration-500 ease-in-out">
                   {course.subSection.map((topic, i) => (
                     <div
-                      className={`flex gap-3  px-5 py-2 ${
+                      className={`flex min-w-0 gap-3 px-5 py-2 ${
                         videoBarActive === topic._id
                           ? "bg-yellow-200 font-semibold text-richblack-800"
                           : "hover:bg-richblack-900"
@@ -113,11 +113,12 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
                       }}
                     >
                       <input
+                        className="shrink-0"
                         type="checkbox"
                         checked={completedLectures.includes(topic?._id)}
                         onChange={() => {}}
                       />
-                      {topic.title}
+                      <span className="min-w-0 break-words">{topic.title}</span>
                     </div>
                   ))}
                 </div>

@@ -33,7 +33,7 @@ function App() {
   // const isInstructorDashboard = location.pathname === "/" || location.pathname === "/instructor-dashboard";
 
   return (
-    <div className = "w-screen min-h-screen bg-richblack-900 flex flex-col front-inter">
+    <div className = "flex min-h-screen w-full max-w-full flex-col overflow-x-hidden bg-richblack-900 front-inter">
 
       {<Navbar/>}
       <Routes>

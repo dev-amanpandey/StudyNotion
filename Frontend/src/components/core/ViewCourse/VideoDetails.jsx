@@ -167,15 +167,15 @@ const VideoDetails = () => {
   }
 
   return (
-    <div className="flex flex-col gap-5 text-white">
+    <div className="flex w-full min-w-0 max-w-full flex-col gap-5 text-white">
       {!videoData ? (
         <img
           src={previewSource}
           alt="Preview"
-          className="h-full w-full rounded-md object-cover"
+          className="aspect-video h-auto w-full max-w-full rounded-md object-cover"
         />
       ) : (
-        <div className="relative aspect-video overflow-hidden rounded-md bg-richblack-900">
+        <div className="relative aspect-video w-full max-w-full overflow-hidden rounded-md bg-richblack-900">
           <video
           ref={playerRef}
           className="h-full w-full"
@@ -215,7 +215,7 @@ const VideoDetails = () => {
                 text="Rewatch"
                 customClasses="text-xl max-w-max px-4 mx-auto mt-2"
               />
-              <div className="mt-10 flex min-w-[250px] justify-center gap-x-4 text-xl">
+              <div className="mt-10 flex min-w-0 flex-wrap justify-center gap-4 text-xl">
                 {!isFirstVideo() && (
                   <button
                     disabled={loading}
@@ -240,8 +240,8 @@ const VideoDetails = () => {
         </div>
       )}
 
-      <h1 className="mt-4 text-3xl font-semibold">{videoData?.title}</h1>
-      <p className="pt-2 pb-6">{videoData?.description}</p>
+      <h1 className="mt-4 max-w-full break-words text-3xl font-semibold">{videoData?.title}</h1>
+      <p className="max-w-full break-words pt-2 pb-6">{videoData?.description}</p>
     </div>
   )
 }

@@ -35,36 +35,58 @@ const formatDuration = (totalSeconds) => {
 };
 exports.updateProfile = async (req, res) => {
     try {
-        //fetch data
-        const {gender,dateOfBirth="",about="",contactNumber} = req.body;
-        //get userid
+        const { firstName, lastName, gender, dateOfBirth, about, contactNumber } = req.body;
         const id = req.user.id;
-        //validation
-        if(!gender||!contactNumber||!id){
+
+        if (!id) {
             return res.status(400).json({
                 success:false,
-                message:"All fields are required",
+                message:"User id is required",
             });
         }
-        //find profile
+
         const userDetails = await User.findById(id);
+        if (!userDetails) {
+            return res.status(404).json({
+                success: false,
+                message: "User not found",
+            });
+        }
+
         const profileId = userDetails.additionalDetails;
         const profileDetails = await Profile.findById(profileId);
+        if (!profileDetails) {
+            return res.status(404).json({
+                success: false,
+                message: "Profile details not found",
+            });
+        }
 
-        //update profile
-        profileDetails.gender = gender;
-        profileDetails.dateOfBirth = dateOfBirth;
-        profileDetails.about = about;
-        profileDetails.contactNumber = contactNumber;
+        // Update only fields supplied by the client. Names belong to User; the
+        // remaining settings belong to the linked Profile document.
+        if (typeof firstName === "string" && firstName.trim()) userDetails.firstName = firstName.trim();
+        if (typeof lastName === "string" && lastName.trim()) userDetails.lastName = lastName.trim();
+        if (typeof gender === "string") profileDetails.gender = gender;
+        if (typeof dateOfBirth === "string") profileDetails.dateOfBirth = dateOfBirth;
+        if (typeof about === "string") profileDetails.about = about;
+        if (typeof contactNumber === "string") profileDetails.contactNumber = contactNumber.trim();
+
+        await userDetails.save();
         await profileDetails.save();
-        //return response
+
+        const updatedUser = await User.findById(id)
+            .select("-password -token -resetPasswordExpires")
+            .populate("additionalDetails")
+            .exec();
+
         return res.status(200).json({
             success:true,
             message:"Profile updated successfully",
-            profileDetails,
+            user: updatedUser,
         });
     } 
     catch (error) {
+        console.error("UPDATE_PROFILE_ERROR", { userId: req.user?.id, error });
         return res.status(500).json({
             success:false,
             message:"Error while updating profile",
