@@ -18,6 +18,11 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
     totalNoOfLectures,
     completedLectures,
   } = useSelector((state) => state.viewCourse)
+  const { user } = useSelector((state) => state.profile)
+  const hasReviewed = courseEntireData?.ratingAndReviews?.some((review) => {
+    const reviewerId = review?.user?._id ?? review?.user
+    return reviewerId?.toString() === user?._id?.toString()
+  })
 
   useEffect(() => {
     ;(() => {
@@ -53,9 +58,10 @@ export default function VideoDetailsSidebar({ setReviewModal }) {
               <IoIosArrowBack size={30} />
             </div>
             <IconBtn
-              text="Add Review"
+              text={hasReviewed ? "Review Submitted" : "Add Review"}
               customClasses="ml-auto"
               onclick={() => setReviewModal(true)}
+              disabled={hasReviewed}
             />
           </div>
           <div className="flex min-w-0 flex-col">

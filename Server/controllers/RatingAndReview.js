@@ -1,6 +1,6 @@
 const RatingAndReview=require("../models/RatingAndReview");
 const Course = require("../models/Course");
-const { default: mongoose } = require("mongoose");
+const mongoose = require("mongoose");
 
 //createRating
 exports.createRating = async (req,res)=>{
@@ -10,6 +10,19 @@ exports.createRating = async (req,res)=>{
     const userId = req.user.id;
     //fetch data from req body
     const {rating, review, courseId} = req.body;
+    if (
+        !courseId ||
+        !mongoose.Types.ObjectId.isValid(courseId) ||
+        !Number.isFinite(Number(rating)) ||
+        Number(rating) < 1 ||
+        Number(rating) > 5 ||
+        !review?.trim()
+    ) {
+        return res.status(400).json({
+            success: false,
+            message: "A valid course, rating, and review are required",
+        });
+    }
     //check if user is enrolled or not
     const courseDetails = await Course.findOne({_id:courseId,
         studentEnrolled: {$elemMatch: {$eq:userId}},
@@ -25,9 +38,9 @@ const alreadyReviewed = await RatingAndReview.findOne({user:userId,
     course:courseId,
 });
 if(alreadyReviewed){
-    return res.status(403).json({
+    return res.status(409).json({
         success:false,
-        message:"course is already reviewed by the user",
+        message:"You have already reviewed this course",
     });
 }
 //create rating and revoew

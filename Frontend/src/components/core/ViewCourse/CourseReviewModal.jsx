@@ -2,15 +2,17 @@ import { useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { RxCross2 } from "react-icons/rx"
 import ReactStars from "react-rating-stars-component"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 
 import { createRating } from "../../../services/operations/courseDetailsAPI"
 import IconBtn from "../../common/IconBtn"
+import { setEntireCourseData } from "../../../slices/viewCourseSlice"
 
 export default function CourseReviewModal({ setReviewModal }) {
   const { user } = useSelector((state) => state.profile)
   const { token } = useSelector((state) => state.auth)
   const { courseEntireData } = useSelector((state) => state.viewCourse)
+  const dispatch = useDispatch()
 
   const {
     register,
@@ -31,7 +33,7 @@ export default function CourseReviewModal({ setReviewModal }) {
   }
 
   const onSubmit = async (data) => {
-    const success = await createRating(
+    const ratingReview = await createRating(
       {
         courseId: courseEntireData._id,
         rating: data.courseRating,
@@ -39,7 +41,16 @@ export default function CourseReviewModal({ setReviewModal }) {
       },
       token
     )
-    if (success) {
+    if (ratingReview) {
+      dispatch(
+        setEntireCourseData({
+          ...courseEntireData,
+          ratingAndReviews: [
+            ...(courseEntireData.ratingAndReviews ?? []),
+            ratingReview,
+          ],
+        })
+      )
       setReviewModal(false)
     }
   }
