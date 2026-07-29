@@ -8,6 +8,7 @@ const {
   signUp,
   sendOTP,
   changePassword,
+  googleAuth,
 } = require("../controllers/Auth")
 const {
   resetPasswordToken,
@@ -24,6 +25,11 @@ const { auth } = require("../middlewares/auth")
 
 // Route for user login
 router.post("/login", login)
+
+// Google Identity Services popup token exchange. `/google/callback` is kept as
+// a compatible alias for clients configured with that callback endpoint.
+router.post("/google", googleAuth)
+router.post("/google/callback", googleAuth)
 
 // Route for user signup
 router.post("/signup", signUp)

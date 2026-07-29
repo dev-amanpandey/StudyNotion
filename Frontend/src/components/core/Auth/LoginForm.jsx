@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 
 import { login } from "../../../services/operations/authAPI"
+import GoogleAuthButton from "./GoogleAuthButton"
 
 function LoginForm() {
   const navigate = useNavigate()
@@ -89,6 +90,7 @@ function LoginForm() {
       >
         Sign In
       </button>
+      <GoogleAuthButton />
     </form>
   )
 }

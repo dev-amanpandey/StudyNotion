@@ -14,10 +14,13 @@ const userSchema= new mongoose.Schema({
         type:String,
         required:true,
         trim:true,
+        unique:true,
     },
     password:{
         type:String,
-        required:true,
+        required:function () {
+            return this.authProvider !== "google";
+        },
     },
     accountType:{
         type:String,
@@ -39,6 +42,16 @@ const userSchema= new mongoose.Schema({
 image:{
     type:String,
     required:true,
+},
+googleId:{
+    type:String,
+    unique:true,
+    sparse:true,
+},
+authProvider:{
+    type:String,
+    enum:['email', 'google'],
+    default:'email',
 },
 courseProgress:[{
     type:mongoose.Schema.Types.ObjectId,

@@ -18,6 +18,7 @@ const getInitialToken = () => {
 const initialState = {
   signupData: null,
   token: getInitialToken(),
+  isAuthenticated: Boolean(getInitialToken()),
   loading: false,
 };
 
@@ -30,6 +31,7 @@ const authSlice = createSlice({
     },
     setToken: (state, action) => {
       state.token = action.payload;
+      state.isAuthenticated = Boolean(action.payload);
     },
     setLoading: (state, action) => {
       state.loading = action.payload;

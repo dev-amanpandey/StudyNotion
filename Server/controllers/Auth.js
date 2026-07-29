@@ -4,7 +4,37 @@ const otpGenerator = require('otp-generator');
 const Profile = require("../models/Profile");
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { OAuth2Client } = require('google-auth-library');
 require('dotenv').config();
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+
+const createAuthToken = (user) => jwt.sign(
+    {
+        email: user.email,
+        id: user._id,
+        accountType: user.accountType,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: '2h' }
+);
+
+const sendLoginResponse = (res, user, message) => {
+    const token = createAuthToken(user);
+    const safeUser = user.toObject ? user.toObject() : user;
+    delete safeUser.password;
+    safeUser.token = token;
+
+    return res
+        .cookie('token', token, {
+            expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
+            httpOnly: true,
+            sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+            secure: process.env.NODE_ENV === 'production',
+        })
+        .status(200)
+        .json({ success: true, message, token, user: safeUser });
+};
 
 //send otp
 exports.sendOTP = async(req,res)=>{
@@ -191,29 +221,15 @@ exports.login =  async(req,res)=>{
                 message:"User not found, please sign up",
             });
         }
+        if (!user.password) {
+            return res.status(401).json({
+                success: false,
+                message: "This account uses Google sign-in. Please continue with Google.",
+            });
+        }
         //generate jwt token after password match
         if(await bcrypt.compare(password,user.password)){
-            const payload ={
-                email:user.email,
-                id:user._id,
-                accountType:user.accountType,
-            }
-            const token = jwt.sign(payload,process.env.JWT_SECRET,{
-                expiresIn:'2h',
-            });
-            user.token=token;
-            user.password=undefined;
-        //create cookie and send response 
-        const options = {
-            expires: new Date(Date.now()+3*24*60*60*1000),
-            httpOnly:true,
-        }
-            res.cookie("token",token,options).status(200).json({
-                success:true,
-                message:"Login successful",
-                token,
-                user,
-            });
+            return sendLoginResponse(res, user, "Login successful");
         }
         else{
             return res.status(401).json({
@@ -229,6 +245,71 @@ exports.login =  async(req,res)=>{
             success:false,
             message:error.message,
         });
+    }
+};
+
+// Google Identity Services sends an ID token to the browser. It is verified here
+// before any account is created or authenticated.
+exports.googleAuth = async (req, res) => {
+    try {
+        const { credential, accountType } = req.body;
+        if (!credential) {
+            return res.status(400).json({ success: false, message: "Google credential is required" });
+        }
+        if (!process.env.GOOGLE_CLIENT_ID || !process.env.JWT_SECRET) {
+            return res.status(500).json({ success: false, message: "Google authentication is not configured" });
+        }
+
+        const ticket = await googleClient.verifyIdToken({
+            idToken: credential,
+            audience: process.env.GOOGLE_CLIENT_ID,
+        });
+        const payload = ticket.getPayload();
+        if (!payload || !payload.email || !payload.email_verified || !payload.sub) {
+            return res.status(401).json({ success: false, message: "Google account email could not be verified" });
+        }
+
+        const email = payload.email.toLowerCase();
+        let user = await User.findOne({ $or: [{ googleId: payload.sub }, { email }] })
+            .populate("additionalDetails");
+
+        if (user) {
+            // An email account with the same verified Google email can use Google
+            // sign-in too; linking the subject prevents future account conflicts.
+            if (user.googleId && user.googleId !== payload.sub) {
+                return res.status(409).json({ success: false, message: "This email is linked to a different Google account" });
+            }
+            if (!user.googleId) {
+                user.googleId = payload.sub;
+                await user.save();
+            }
+            return sendLoginResponse(res, user, "Google login successful");
+        }
+
+        const names = (payload.name || "Google User").trim().split(/\s+/);
+        const firstName = payload.given_name || names[0] || "Google";
+        const lastName = payload.family_name || names.slice(1).join(" ") || "User";
+        const profileDetails = await Profile.create({
+            gender: null,
+            dateOfBirth: null,
+            about: null,
+            contactNumber: null,
+        });
+        user = await User.create({
+            firstName,
+            lastName,
+            email,
+            image: payload.picture || `https://api.dicebear.com/7.x/initials/svg?seed=${firstName}+${lastName}`,
+            googleId: payload.sub,
+            authProvider: "google",
+            accountType: accountType === "Instructor" ? "Instructor" : "Student",
+            additionalDetails: profileDetails._id,
+        });
+        user = await user.populate("additionalDetails");
+        return sendLoginResponse(res, user, "Google account created successfully");
+    } catch (error) {
+        console.error("Google authentication error:", error.message);
+        return res.status(401).json({ success: false, message: "Unable to verify Google sign-in" });
     }
 };
 

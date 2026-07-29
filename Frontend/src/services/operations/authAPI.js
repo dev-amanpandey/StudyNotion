@@ -10,6 +10,7 @@ const {
   SENDOTP_API,
   SIGNUP_API,
   LOGIN_API,
+  GOOGLE_AUTH_API,
   RESETPASSTOKEN_API,
   RESETPASSWORD_API,
 } = endpoints
@@ -187,5 +188,31 @@ export function resetPassword(password, confirmPassword, token) {
       toast.error("Unable to reset password");
     }
     dispatch(setLoading(false));
+  }
+}
+
+export function googleLogin(credential, navigate, accountType) {
+  return async (dispatch) => {
+    const toastId = toast.loading("Signing in with Google...")
+    dispatch(setLoading(true))
+    try {
+      const response = await apiConnector("POST", GOOGLE_AUTH_API, { credential, accountType })
+      if (!response.data.success) {
+        throw new Error(response.data.message)
+      }
+
+      const user = response.data.user
+      dispatch(setToken(response.data.token))
+      dispatch(setUser(user))
+      localStorage.setItem("token", JSON.stringify(response.data.token))
+      localStorage.setItem("user", JSON.stringify(user))
+      toast.success("Google sign-in successful")
+      navigate("/dashboard/my-profile")
+    } catch (error) {
+      console.log("GOOGLE AUTH API ERROR............", error)
+      toast.error(error?.response?.data?.message || error?.message || "Google sign-in failed. Please try again.")
+    }
+    dispatch(setLoading(false))
+    toast.dismiss(toastId)
   }
 }
