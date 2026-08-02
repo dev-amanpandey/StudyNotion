@@ -41,4 +41,11 @@ export const sidebarLinks = [
     type: ACCOUNT_TYPE.STUDENT,
     icon: "VscHistory",
   },
+  {
+    id: 7,
+    name: "AI Tutor",
+    path: "/dashboard/ai-tutor",
+    type: ACCOUNT_TYPE.STUDENT,
+    icon: "VscCommentDiscussion",
+  },
 ];

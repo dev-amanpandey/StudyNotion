@@ -22,7 +22,7 @@ const application = (
     </BrowserRouter>
   </Provider>
 )
-
+//console.log("Google Client ID:", process.env.REACT_APP_GOOGLE_CLIENT_ID);
 root.render(
   // Google Identity Services is initialized imperatively by its SDK. Rendering
   // it in StrictMode initializes the SDK twice in development and causes GSI

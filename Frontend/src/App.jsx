@@ -24,6 +24,7 @@ import Catalog from "./pages/Catalog";
 import CourseDetails from "./pages/CourseDetails";
 import VideoDetails from "./components/core/ViewCourse/VideoDetails";
 import ViewCourse from "./pages/ViewCourse";
+import AITutor from "./pages/AITutor";
 //import InstructorDashboard from "./pages/InstructorDashboard";
 import Instructor from "./components/core/Dashboard/InstructorDashboard/Instructor";
 
@@ -80,6 +81,7 @@ function App() {
                 <>
                  <Route path="dashboard/settings" element={<Settings />} />
       <Route path="dashboard/enrolled-courses" element={<EnrolledCourses />} />
+      <Route path="dashboard/ai-tutor" element={<AITutor />} />
       
                 </>
               )
