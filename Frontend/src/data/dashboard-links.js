@@ -43,7 +43,7 @@ export const sidebarLinks = [
   },
   {
     id: 7,
-    name: "AI Tutor",
+    name: "SAARTHI AI",
     path: "/dashboard/ai-tutor",
     type: ACCOUNT_TYPE.STUDENT,
     icon: "VscCommentDiscussion",

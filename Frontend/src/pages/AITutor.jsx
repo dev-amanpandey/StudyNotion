@@ -54,7 +54,7 @@ export default function AITutor() {
               <FiZap className="text-xl" aria-hidden="true" />
             </div>
             <div className="min-w-0">
-              <h1 className="truncate text-lg font-semibold sm:text-xl">AI Learning Assistant</h1>
+              <h1 className="truncate text-lg font-semibold sm:text-xl">SAARTHI AI</h1>
               <p className="text-xs text-richblack-300 sm:text-sm">Your study companion, ready when you are</p>
             </div>
           </div>
@@ -117,7 +117,7 @@ export default function AITutor() {
                     <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-yellow-50 [animation-delay:-0.15s]" />
                     <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-yellow-50" />
                   </span>
-                  AI Tutor is thinking...
+                  SAARTHI AI is thinking...
                 </div>
               )}
             </div>
@@ -135,10 +135,10 @@ export default function AITutor() {
                   event.currentTarget.form?.requestSubmit()
                 }
               }}
-              placeholder="Ask your AI tutor anything..."
+              placeholder="Ask SAARTHI AI anything..."
               rows={1}
               className="max-h-32 min-h-[44px] flex-1 resize-none bg-transparent px-3 py-3 text-sm text-richblack-5 outline-none placeholder:text-richblack-400 sm:text-base"
-              aria-label="Message for AI tutor"
+              aria-label="Message for SAARTHI AI"
             />
             <button
               type="submit"
