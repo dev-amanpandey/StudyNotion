@@ -83,6 +83,9 @@ return(
                 }
                 codeblock = {`<<DOCTYPE html>\n<html>\n head>\n  <title>My First Web Page</title>\n </head>\n <body>\n  <h1>Hello, World!</h1>\n  <p>This is my first web page.</p>\n </body>\n</html>`}
                 codeColor = {"text-yellow-25"}
+                backgroundGradient={
+                    <div className='pointer-events-none absolute -right-20 top-8 h-64 w-80 rounded-full bg-[#FFD60A] opacity-20 blur-[34px]' />
+                }
 
                 />
 
@@ -116,6 +119,9 @@ return(
                 }
                 codeblock = {`<<DOCTYPE html>\n<html>\n head>\n  <title>My First Web Page</title>\n </head>\n <body>\n  <h1>Hello, World!</h1>\n  <p>This is my first web page.</p>\n </body>\n</html>`}
                 codeColor = {"text-yellow-25"}
+                backgroundGradient={
+                    <div className='pointer-events-none absolute -left-16 top-8 h-64 w-80 rounded-full bg-[#0F7A9D] opacity-40 blur-[34px]' />
+                }
 
                 />
 
@@ -129,7 +135,7 @@ return(
         {/*section 2*/}
         <div className = 'bg-pure-greys-5 text-richblack-700'>
             <div className = 'homepage_bg h-[310px]'>
-                <div className='w-11/12 max-w-maxContent flex flec-col items-center justify-between gap-5 mx-auto'>
+                <div className='w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-5 mx-auto'>
                 <div className='h-[150px]'></div>
                 <div className='flex flex-row gap-7 text-white'>
                     <CTAButton active = {true} linkto={"/signup"}>
@@ -153,7 +159,7 @@ return(
 
             </div>{/* closes homepage_bg */}
 
-                <div className='w-11/12 max-w-maxContent flex flec-col items-center justify-between gap-7 mx-auto'>
+                <div className='w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-7 mx-auto'>
 
         {/* MOBILE LAYOUT FIX: stack vertically on mobile, two-column on md+ */}
         <div className='flex flex-col md:flex-row gap-5 mb-10 mt-[95px]'>

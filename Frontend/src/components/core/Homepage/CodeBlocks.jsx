@@ -32,7 +32,8 @@ const CodeBlocks = ({position, heading, subheading,ctabtn1,ctabtn2, codeblock,ba
 
         </div>
         {/*section 2*/}
-        <div className = 'flex h-fit w-full overflow-x-auto rounded-lg border border-richblack-800 bg-richblack-900 py-5 text-xs lg:w-[500px]'>
+        <div className='relative flex h-fit w-full overflow-hidden rounded-lg border border-richblack-700 bg-richblack-900 py-5 text-xs lg:w-[500px]'>
+            {backgroundGradient}
             <div className = 'flex w-12 shrink-0 flex-col border-r border-richblack-700 pr-3 text-right font-mono font-bold leading-5 text-richblack-400'>
                 {lineNumbers.map((lineNumber) => (
                     <span key={lineNumber}>{lineNumber}</span>
