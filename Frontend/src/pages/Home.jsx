@@ -59,7 +59,7 @@ return(
                 <CodeBlocks
                 position = {"lg:flex-row"}
                 heading = {
-                    <h2 className='font-sans text-3xl font-bold leading-[1.15] tracking-[-0.025em] text-richblack-5 sm:text-4xl lg:text-5xl'>
+                    <h2 className='font-sans text-2xl font-bold leading-[1.15] tracking-[-0.025em] text-richblack-5 sm:text-4xl lg:text-5xl'>
                         Unlock Your <HighlightText text = {'Coding Potential '}/> 
                         With Our Online Courses
                     </h2>
@@ -95,7 +95,7 @@ return(
                 <CodeBlocks
                 position = {"lg:flex-row-reverse"}
                 heading = {
-                    <h2 className='font-sans text-3xl font-bold leading-[1.15] tracking-[-0.025em] text-richblack-5 sm:text-4xl lg:text-5xl'>
+                    <h2 className='font-sans text-2xl font-bold leading-[1.15] tracking-[-0.025em] text-richblack-5 sm:text-4xl lg:text-5xl'>
                         Unlock Your <HighlightText text = {'Coding Potential '}/> 
                         With Our Online Courses
                     </h2>
