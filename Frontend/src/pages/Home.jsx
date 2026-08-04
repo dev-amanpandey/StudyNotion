@@ -43,9 +43,9 @@ return(
                 </CTAButton>
 
             </div>
-            <div className='w-full mx-3 my-7 shadow-[10px_-5px_50px_-5px] shadow-blue-200'>
+            <div className='my-7 w-full max-w-[1048px] shadow-[10px_-5px_50px_-5px] shadow-blue-200'>
                 <video 
-            className="w-full max-w-full md:shadow-[20px_20px_rgba(255,255,255)]"
+            className="block aspect-video w-full object-cover md:shadow-[20px_20px_rgba(255,255,255)]"
                 muted 
                 loop 
                 autoPlay
