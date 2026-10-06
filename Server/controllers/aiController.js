@@ -19,8 +19,11 @@ const conversationQuerySchema = z.object({
 
 const sendErrorResponse = (res, error) => {
   const statusCode = error.statusCode || 500;
-  const message =
-    statusCode >= 500 ? "Unable to process the AI request" : error.message;
+  const message = error.code?.startsWith("AI_")
+    ? error.message
+    : statusCode >= 500
+      ? "Unable to process the AI request"
+      : error.message;
 
   return res.status(statusCode).json({
     success: false,

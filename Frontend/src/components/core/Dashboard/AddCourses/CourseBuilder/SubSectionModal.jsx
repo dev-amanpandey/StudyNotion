@@ -58,6 +58,11 @@ export default function SubSectionModal({
     if (data.videoFile) {
       formData.append("videoFile", data.videoFile)
     }
+    const notesFile = data.notesFile || document.querySelector('input[name="notesFile"]')?.files?.[0]
+    if (notesFile) {
+      formData.append("notesFile", notesFile)
+      formData.append("hasNotesFile", "true")
+    }
 
     if (add) {
       formData.append("sectionId", modalData)
@@ -147,6 +152,18 @@ export default function SubSectionModal({
             viewData={view ? modalData?.videoUrl : null}
             editData={edit ? modalData?.videoUrl : null}
             required={!edit && !view}
+          />
+
+          <Upload
+            name="notesFile"
+            label="Lecture Notes (PDF)"
+            register={register}
+            setValue={setValue}
+            errors={errors}
+            accept="application/pdf,.pdf"
+            viewData={view ? modalData?.notesUrl : null}
+            editData={edit ? modalData?.notesUrl : null}
+            required={false}
           />
 
           <div className="flex items-center justify-end gap-x-3 pt-2">

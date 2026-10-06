@@ -158,14 +158,19 @@ export const createSubSection = async (data, token) => {
       Authorization: `Bearer ${token}`,
     })
     console.log("CREATE SUB-SECTION API RESPONSE............", response)
-    if (!response?.data?.success) {
-      throw new Error("Could Not Add Lecture")
+    if (!response?.data?.success || !response?.data?.updatedSectionDetails) {
+      throw new Error(response?.data?.message || "Could Not Add Lecture")
+    }
+    const addedSubSection = response.data.savedSubSection ||
+      response.data.updatedSectionDetails.subSections?.at(-1)
+    if (data.get("hasNotesFile") === "true" && !addedSubSection?.notesUrl) {
+      throw new Error("Lecture was added, but the server did not save its notes PDF")
     }
     toast.success("Lecture Added")
     result = response?.data?.updatedSectionDetails
   } catch (error) {
     console.log("CREATE SUB-SECTION API ERROR............", error)
-    toast.error(error.message)
+    toast.error(error.response?.data?.message || error.message)
   }
   toast.dismiss(toastId)
   return result
@@ -202,14 +207,21 @@ export const updateSubSection = async (data, token) => {
       Authorization: `Bearer ${token}`,
     })
     console.log("UPDATE SUB-SECTION API RESPONSE............", response)
-    if (!response?.data?.success) {
-      throw new Error("Could Not Update Lecture")
+    if (!response?.data?.success || !response?.data?.updatedSectionDetails) {
+      throw new Error(response?.data?.message || "Could Not Update Lecture")
+    }
+    const savedSubSection = response.data.savedSubSection ||
+      response.data.updatedSectionDetails.subSections?.find(
+        (subSection) => String(subSection._id) === String(data.get("subSectionId"))
+      )
+    if (data.get("hasNotesFile") === "true" && !savedSubSection?.notesUrl) {
+      throw new Error("Lecture was updated, but the server did not save its notes PDF")
     }
     toast.success("Lecture Updated")
     result = response?.data?.updatedSectionDetails
   } catch (error) {
-    console.log("UPDATE SUB-SECTION API ERROR............", error)
-    toast.error(error.message)
+    console.error("UPDATE SUB-SECTION API ERROR............", error.response?.data || error)
+    toast.error(error.response?.data?.error || error.response?.data?.message || error.message)
   }
   toast.dismiss(toastId)
   return result

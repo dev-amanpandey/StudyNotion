@@ -35,6 +35,7 @@ const {
   createSubSection,
   updateSubSection,
   deleteSubSection,
+  getSubSectionNotes,
 } = require("../controllers/Subsection")
 
 // Rating Controllers Import
@@ -71,6 +72,7 @@ router.post("/addSubSection", auth, isInstructor, createSubSection)
 router.post("/updateSubSection", auth, isInstructor, updateSubSection)
 // Delete a Sub Section
 router.post("/deleteSubSection", auth, isInstructor, deleteSubSection)
+router.get("/subSection/:subSectionId/notes", getSubSectionNotes)
 // Get all Registered Courses
 router.get("/getAllCourses", showAllCourses)
 // Get Details for a Specific Courses

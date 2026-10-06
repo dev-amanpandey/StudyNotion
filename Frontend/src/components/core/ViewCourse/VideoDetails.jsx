@@ -166,6 +166,23 @@ const VideoDetails = () => {
     setLoading(false)
   }
 
+  const notesViewUrl = videoData?.notesUrl
+    ? `${process.env.REACT_APP_BASE_URL}/course/subSection/${videoData._id}/notes`
+    : null
+  const notesDownloadUrl = videoData?.notesUrl?.replace(
+    "/upload/",
+    "/upload/fl_attachment/"
+  )
+  const notesFileName = (() => {
+    if (!videoData?.notesUrl) return null
+    try {
+      const fileName = decodeURIComponent(new URL(videoData.notesUrl).pathname.split("/").pop())
+      return fileName.replace(/-\d{10,}(?=\.pdf$)/i, "") || "Lecture notes.pdf"
+    } catch {
+      return "Lecture notes.pdf"
+    }
+  })()
+
   return (
     <div className="flex w-full min-w-0 max-w-full flex-col gap-5 text-white">
       {!videoData ? (
@@ -175,10 +192,10 @@ const VideoDetails = () => {
           className="aspect-video h-auto w-full max-w-full rounded-md object-cover"
         />
       ) : (
-        <div className="relative aspect-video w-full max-w-full overflow-hidden rounded-md bg-richblack-900">
+        <div className="relative h-[55vh] min-h-[280px] w-full max-w-full overflow-hidden rounded-md bg-richblack-900">
           <video
           ref={playerRef}
-          className="h-full w-full"
+          className="h-full w-full object-contain"
           playsInline
           controls
           onEnded={() => setVideoEnded(true)}
@@ -240,7 +257,44 @@ const VideoDetails = () => {
         </div>
       )}
 
-      <h1 className="mt-4 max-w-full break-words text-3xl font-semibold">{videoData?.title}</h1>
+      {videoData && (
+        <section className="w-full rounded-lg border border-richblack-600 bg-richblack-800 p-4 sm:p-6">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 className="text-xl font-semibold text-richblack-5">Lecture Notes</h2>
+            {videoData.notesUrl && (
+              <div className="flex min-w-0 flex-1 flex-wrap items-center justify-between gap-3 rounded-md bg-richblack-700 p-3 sm:ml-4">
+                <p className="min-w-0 break-all text-sm font-medium text-richblack-5">
+                  {notesFileName}
+                </p>
+                <div className="flex shrink-0 gap-3">
+                  <a
+                    href={notesViewUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="rounded-md bg-richblack-600 px-4 py-2 text-sm font-semibold text-richblack-5 hover:bg-richblack-500"
+                  >
+                    Open PDF
+                  </a>
+                  <a
+                    href={notesDownloadUrl}
+                    download
+                    className="rounded-md bg-yellow-50 px-4 py-2 text-sm font-semibold text-richblack-900 hover:bg-yellow-100"
+                  >
+                    Download PDF
+                  </a>
+                </div>
+              </div>
+            )}
+          </div>
+          {!videoData.notesUrl && (
+            <p className="mt-3 rounded-md bg-richblack-700 p-4 text-richblack-200">
+              No notes are attached to this lecture yet. The instructor can add a PDF by editing this lecture.
+            </p>
+          )}
+        </section>
+      )}
+
+      <h1 className="mt-2 max-w-full break-words text-3xl font-semibold">{videoData?.title}</h1>
       <p className="max-w-full break-words pt-2 pb-6">{videoData?.description}</p>
     </div>
   )

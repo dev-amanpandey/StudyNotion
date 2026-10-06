@@ -15,3 +15,22 @@ exports.uploadImageToCloudinary = async (File,folder,FileSystemDirectoryReader,h
 
     return await cloudinary.uploader.upload(File.tempFilePath,options);
 }
+
+exports.uploadPdfToCloudinary = async (file, folder) => {
+    // express-fileupload is configured with useTempFiles, so uploaded files are
+    // written to disk and `data` is intentionally empty.
+    if (!file?.tempFilePath) {
+        throw new Error("The PDF file was empty or did not reach the server");
+    }
+
+    const safeName = (file.name || "lecture-notes.pdf")
+        .replace(/\.pdf$/i, "")
+        .replace(/[^a-zA-Z0-9_-]/g, "_")
+        .slice(0, 80) || "lecture-notes";
+
+    return await cloudinary.uploader.upload(file.tempFilePath, {
+            folder,
+            public_id: `${safeName}-${Date.now()}.pdf`,
+            resource_type: "raw",
+    });
+};

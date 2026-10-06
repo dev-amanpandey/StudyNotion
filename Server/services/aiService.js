@@ -4,6 +4,7 @@ const { GoogleGenAI } = require("@google/genai");
 dotenv.config({ quiet: true });
 
 const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-3.5-flash";
+const GEMINI_FALLBACK_MODEL = process.env.GEMINI_FALLBACK_MODEL || "gemini-3.5-flash-lite";
 let geminiClient;
 
 const createAiError = (message, statusCode, code) => {
@@ -60,6 +61,14 @@ const normalizeGeminiError = (error) => {
     );
   }
 
+  if (providerStatus === 503 || providerMessage.includes("high demand")) {
+    return createAiError(
+      "The AI service is temporarily busy. Please try again shortly.",
+      503,
+      "AI_PROVIDER_UNAVAILABLE"
+    );
+  }
+
   if (
     ["ECONNABORTED", "ECONNREFUSED", "ECONNRESET", "ENOTFOUND", "ETIMEDOUT"].includes(error?.code) ||
     providerMessage.includes("network") ||
@@ -104,10 +113,27 @@ exports.generateAIResponse = async (message) => {
 
   try {
     const client = getGeminiClient();
-    const response = await client.models.generateContent({
-      model: GEMINI_MODEL,
-      contents: message.trim(),
-    });
+    let response;
+    try {
+      response = await client.models.generateContent({
+        model: GEMINI_MODEL,
+        contents: message.trim(),
+      });
+    } catch (primaryError) {
+      if (getProviderStatus(primaryError) !== 503 || GEMINI_FALLBACK_MODEL === GEMINI_MODEL) {
+        throw primaryError;
+      }
+
+      console.warn("GEMINI_PRIMARY_MODEL_UNAVAILABLE", {
+        model: GEMINI_MODEL,
+        fallbackModel: GEMINI_FALLBACK_MODEL,
+        providerStatus: getProviderStatus(primaryError),
+      });
+      response = await client.models.generateContent({
+        model: GEMINI_FALLBACK_MODEL,
+        contents: message.trim(),
+      });
+    }
     const aiResponse = typeof response?.text === "string" ? response.text.trim() : "";
 
     if (!aiResponse) {
