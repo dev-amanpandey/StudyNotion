@@ -16,9 +16,18 @@ const Catalog = () => {
 
     const { loading } = useSelector((state) => state.profile)
   const { catalogName } = useParams()
-  const [active, setActive] = useState(1)
+    const [active, setActive] = useState(1)
     const [catalogPageData, setCatalogPageData] = useState(null);
     const [categoryId, setCategoryId] = useState("");
+
+    const categoryCourses = catalogPageData?.data?.selectedCategory?.courses || []
+    const displayedCourses = active === 2
+      ? [...categoryCourses].sort((courseA, courseB) => {
+          const dateA = new Date(courseA?.createdAt || 0).getTime()
+          const dateB = new Date(courseB?.createdAt || 0).getTime()
+          return dateB - dateA
+        })
+      : categoryCourses
 
     //Fetch all categories
     useEffect(()=> {
@@ -111,6 +120,7 @@ const Catalog = () => {
             <div className="mt-7 flex w-fit rounded-lg border border-richblack-700 bg-richblack-800 p-1 text-sm font-medium">
               <button
                 type="button"
+                aria-pressed={active === 1}
                 className={`rounded-md px-4 py-2 transition-colors ${
                   active === 1
                     ? "bg-yellow-50 text-richblack-900"
@@ -122,6 +132,7 @@ const Catalog = () => {
               </button>
               <button
                 type="button"
+                aria-pressed={active === 2}
                 className={`rounded-md px-4 py-2 transition-colors ${
                   active === 2
                     ? "bg-yellow-50 text-richblack-900"
@@ -138,7 +149,7 @@ const Catalog = () => {
           <section className="mx-auto w-full min-w-0 max-w-maxContentTab px-4 pb-16 pt-7 lg:max-w-maxContent">
             <div className="min-h-[340px] w-full min-w-0 max-w-full">
               <CourseSlider
-                Courses={catalogPageData?.data?.selectedCategory?.courses}
+                Courses={displayedCourses}
               />
             </div>
           </section>
